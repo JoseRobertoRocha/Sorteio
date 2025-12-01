@@ -207,7 +207,7 @@
                 updateUserStatus('offline');
             } catch {}
             // Redireciona para tela de login
-            window.location.href = './Index.html';
+            window.location.href = 'index.html';
         }
 
         // Fechar popup e iniciar timer
@@ -360,4 +360,5 @@
             if (remaining <= 0) {
                 updateUserStatus('offline');
             }
+
         });
