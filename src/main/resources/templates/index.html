@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Natal da Sorte</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+<body class="login-page">
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <div class="login-wrapper">
+        <div class="login-header">
+            <h1>🎄 Natal da Sorte</h1>
+            <p>Faça login ou cadastre-se para participar</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')">Entrar</button>
+            <button class="tab" onclick="switchTab('register')">Cadastrar</button>
+        </div>
+
+        <div class="form-container">
+            <div id="success-message" class="success-message"></div>
+
+            <!-- Formulário de Login -->
+            <div id="login-form" class="form-content active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">E-mail</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="login-email" placeholder="seu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Senha</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="login-password" placeholder="Digite sua senha" required>
+                            <span class="password-toggle" onclick="togglePassword('login-password')">👁️</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">Entrar</button>
+
+                    <div class="forgot-password">
+                        <a href="#">Esqueceu sua senha?</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulário de Cadastro -->
+            <div id="register-form" class="form-content">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="register-name">Nome Completo</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="register-name" placeholder="Digite seu nome completo" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">E-mail</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="register-email" placeholder="seu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-phone">Telefone</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📱</span>
+                            <input type="tel" id="register-phone" placeholder="(00) 00000-0000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-pix">Chave PIX</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">💳</span>
+                            <input type="text" id="register-pix" placeholder="CPF, e-mail ou telefone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Senha</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                            <span class="password-toggle" onclick="togglePassword('register-password')">👁️</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">Criar Conta</button>
+                </form>
+            </div>
+
+            <div class="back-link">
+                <a href="./Painel.html">🔒 Acessar Painel Administrativo</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Criar flocos de neve
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeCount = 50;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.textContent = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        // Alternar entre tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.form-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-form').classList.add('active');
+
+            document.getElementById('success-message').classList.remove('show');
+        }
+
+        // Toggle visibilidade da senha
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggle = event.target;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                toggle.textContent = '👁️';
+            }
+        }
+
+        // Formatar telefone
+        function formatPhone(input) {
+            const cleaned = input.value.replace(/\D/g, '');
+            if (cleaned.length <= 11) {
+                const match = cleaned.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
+                if (match) {
+                    let formatted = '';
+                    if (match[1]) formatted += `(${match[1]}`;
+                    if (match[2]) formatted += match[1].length === 2 ? `) ${match[2]}` : match[2];
+                    if (match[3]) formatted += `-${match[3]}`;
+                    input.value = formatted;
+                }
+            }
+        }
+
+        // Mostrar mensagem de sucesso
+        function showSuccess(message) {
+            const successMsg = document.getElementById('success-message');
+            successMsg.textContent = message;
+            successMsg.classList.add('show');
+            
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 3000);
+        }
+
+        // Processar login
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const userId = 'user_' + email.replace(/[^a-zA-Z0-9]/g, '_');
+            const storedUser = localStorage.getItem(userId);
+            
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                
+                if (user.password === password) {
+                    // Salvar como usuário atual
+                    localStorage.setItem('natalDaSorteUser', JSON.stringify(user));
+                    
+                    showSuccess('Login realizado com sucesso!');
+                    setTimeout(() => {
+                        window.location.href = './Sorteio.html';
+                    }, 1500);
+                } else {
+                    alert('Senha incorreta!');
+                }
+            } else {
+                alert('Usuário não encontrado. Faça o cadastro primeiro!');
+            }
+        }
+
+        // Processar cadastro
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('register-email').value;
+            const name = document.getElementById('register-name').value;
+            const phone = document.getElementById('register-phone').value;
+            const pix = document.getElementById('register-pix').value;
+            const password = document.getElementById('register-password').value;
+            
+            // Verificar se o e-mail já está cadastrado
+            const userId = 'user_' + email.replace(/[^a-zA-Z0-9]/g, '_');
+            const existingUser = localStorage.getItem(userId);
+            
+            if (existingUser) {
+                alert('Este e-mail já está cadastrado! Faça login.');
+                return;
+            }
+            
+            const timestamp = new Date().toISOString();
+            
+            const userData = {
+                name: name,
+                email: email,
+                phone: phone,
+                pix: pix,
+                password: password,
+                luckyNumber: null,
+                status: 'Aguardando',
+                timestamp: timestamp
+            };
+            
+            // Salvar usuário logado
+            localStorage.setItem('natalDaSorteUser', JSON.stringify(userData));
+            
+            // Salvar no registro de usuários para o admin
+            localStorage.setItem(userId, JSON.stringify(userData));
+            
+            console.log('Usuário cadastrado:', userData);
+            console.log('Chave no localStorage:', userId);
+            
+            showSuccess('Cadastro realizado com sucesso!');
+            
+            setTimeout(() => {
+                document.querySelectorAll('.tab')[0].click();
+                document.getElementById('login-email').value = email;
+            }, 2000);
+        }
+
+        // Inicializar
+        window.addEventListener('load', () => {
+            createSnowflakes();
+            
+            const phoneInput = document.getElementById('register-phone');
+            phoneInput.addEventListener('input', function() {
+                formatPhone(this);
+            });
+        });
+    </script>
+</body>
+</html>
+
