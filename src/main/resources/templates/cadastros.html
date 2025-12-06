@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cadastros - Natal da Sorte</title>
+	<link rel="stylesheet" href="/css/cadastros.css?v=1">
+</head>
+<body>
+	<header class="top-nav">
+		<div class="top-nav__brand">
+			<img src="/images/logo.png" alt="Logo" class="top-nav__logo">
+			<span>Natal da Sorte</span>
+		</div>
+		<nav class="top-nav__links">
+			<a href="/admin" class="top-nav__link">Início</a>
+			<a href="/cadastros" class="top-nav__link top-nav__link--active">Cadastros</a>
+			<a href="/" class="top-nav__link top-nav__link--exit">Sair</a>
+		</nav>
+	</header>
+
+	<main class="page">
+		<section class="page-header">
+			<div>
+				<p class="eyebrow">Administração</p>
+				<h1>Usuários Cadastrados</h1>
+				<p class="subtitle">Visualize, pesquise e monitore o status online dos participantes.</p>
+			</div>
+			<div class="stats">
+				<div class="stat-card">
+					<p>Total</p>
+					<strong id="stat-total">0</strong>
+				</div>
+				<div class="stat-card">
+					<p>Online</p>
+					<strong id="stat-online">0</strong>
+				</div>
+				<div class="stat-card">
+					<p>Offline</p>
+					<strong id="stat-offline">0</strong>
+				</div>
+			</div>
+		</section>
+
+		<section class="toolbar">
+			<div class="search-box">
+				<input type="text" id="search-input" placeholder="Buscar por nome, e-mail, telefone ou PIX...">
+				<span class="search-icon">🔍</span>
+			</div>
+			<button id="refresh-btn" class="btn">Atualizar</button>
+		</section>
+
+		<section class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>E-mail</th>
+						<th>Telefone</th>
+						<th>Chave PIX</th>
+						<th>Números da Sorte</th>
+						<th>Status</th>
+						<th>Última atividade</th>
+						<th>Data cadastro</th>
+					</tr>
+				</thead>
+				<tbody id="users-tbody">
+					<tr class="empty">
+						<td colspan="8">Carregando usuários...</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+
+	<script src="/js/cadastros.js?v=1"></script>
+</body>
+</html>

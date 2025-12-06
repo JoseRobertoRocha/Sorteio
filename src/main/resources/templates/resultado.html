@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Resultado - Natal da Sorte</title>
+	<link rel="stylesheet" href="/css/resultado.css?v=1">
+</head>
+<body>
+	<div class="resultado-container">
+		<!-- Números Sorteados -->
+		<section class="numeros-sorteados-section">
+			<h1 class="title">Números Sorteados</h1>
+			<div class="numeros-grid" id="numeros-grid">
+				<p class="empty-state">Aguardando números...</p>
+			</div>
+		</section>
+
+		<!-- Divider -->
+		<div class="divider"></div>
+
+		<!-- Ganhador -->
+		<section class="ganhador-section" id="ganhador-section" style="display: none;">
+			<div class="winner-badge">
+				<div class="winner-icon">🏆</div>
+				<h2>Temos um Ganhador!</h2>
+			</div>
+			<div class="winner-info" id="winner-info">
+				<div class="winner-card">
+					<div class="winner-status-container">
+						<h3 id="winner-name">Nome do Ganhador</h3>
+						<span class="winner-status-badge" id="winner-status-badge">
+							<span class="status-dot" id="winner-status-dot"></span>
+							<span id="winner-status-text">Offline</span>
+						</span>
+					</div>
+					<p id="winner-details">Detalhes do prêmio</p>
+					<p class="winner-contact">
+						<strong>📧 Email:</strong> <span id="winner-email">-</span><br>
+						<strong>📱 Telefone:</strong> <span id="winner-phone">-</span><br>
+						<strong>💳 PIX:</strong> <span id="winner-pix">-</span>
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Histórico de Números (Rodapé) -->
+		<section class="historico-section">
+			<h3 class="subtitle">Histórico de Sorteios</h3>
+			<div class="historico-list" id="historico-list">
+				<p class="empty-state">Nenhum número sorteado ainda</p>
+			</div>
+		</section>
+	</div>
+
+	<script src="/js/resultado.js?v=1"></script>
+</body>
+</html>
