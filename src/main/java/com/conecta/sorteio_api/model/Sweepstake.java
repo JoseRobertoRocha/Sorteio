@@ -31,6 +31,8 @@ public class Sweepstake {
 
     private String prize;
 
+    private LocalDateTime date;
+
     @ManyToOne
     private User adminUser;  
 
@@ -43,11 +45,21 @@ public class Sweepstake {
   
     public Sweepstake() {}
 
-    private Sweepstake(String name, String image, String prize, User adminUser) {
+
+    private Sweepstake(String name, String image, String prize, User adminUser , LocalDateTime date) {
         this.name = name;
         this.image = image;
         this.prize = prize;
         this.adminUser = adminUser;
+        this.date = date;
+    }
+
+    public void setAdminUser(User adminUser){
+        this.adminUser = adminUser;
+    }
+
+    public void setImage(String image){
+        this.image = image;
     }
 
 
@@ -82,6 +94,7 @@ public class Sweepstake {
         private String image;
         private String prize;
         private User adminUser;
+        private LocalDateTime date;
 
         public Builder name(String name) {
             this.name = name;
@@ -103,8 +116,13 @@ public class Sweepstake {
             return this;
         }
 
+        public Builder date(LocalDateTime date){
+            this.date =date;
+            return this;
+        }
+
         public Sweepstake build() {
-            return new Sweepstake(name, image, prize, adminUser);
+            return new Sweepstake(name, image, prize, adminUser,date);
         }
     }
 
