@@ -16,4 +16,10 @@ public class GlobalExceptionHandler {
         return Map.of("error", userAlreadyExistException.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserNotFoundException.class)
+    public Map<String,String> userNotFoundExceptionHandler(UserNotFoundException userNotFoundException){
+        return Map.of("error",userNotFoundException.getMessage());
+    }
+
 }

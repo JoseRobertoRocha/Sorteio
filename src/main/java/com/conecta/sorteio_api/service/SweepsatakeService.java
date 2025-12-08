@@ -29,7 +29,7 @@ public class SweepsatakeService {
 
 
 
-    @Value("${upload.folder}")
+    // @Value("${upload.folder}")
     private String uploadFolder;
 
     private String saveImage(MultipartFile image){
