@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.conecta.sorteio_api.enuns.Role;
 import com.conecta.sorteio_api.model.User;
 
+
 public class UserSecurity implements UserDetails {
     private final User user;
 

@@ -1,143 +1,286 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Natal da Sorte - Sorteio Online</title>
     <!-- CSS Consolidado -->
-    <link rel="stylesheet" href="/css/painel.css?v=3">
-</head>
-<body>
-        <!-- Barra de navegação -->
-        <header class="ns-navbar">
-            <div class="ns-nav-inner">
-                <div class="ns-brand"><span class="logo">👤</span><span id="menu-brand-name">Usuário</span></div>
-                <div class="ns-actions">
-                    <button id="logout-btn" class="ns-logout">Sair</button>
-                </div>
-            </div>
-        </header>
+    <link rel="stylesheet" href="/css/painel.css?v=3" />
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  </head>
+  <body>
+    <!-- Barra de navegação -->
+    <header class="ns-navbar">
+      <div class="ns-nav-inner">
+        <div class="ns-brand">
+          <span class="logo">👤</span><span id="menu-brand-name">Usuário</span>
+          <!-- Bolinha de status -->
+          <span
+            id="user-status"
+            style="
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+              border-radius: 50%;
+              background-color: gray;
+              margin-left: 8px;
+              vertical-align: middle;
+            "
+          ></span>
+          <span
+            id="status-text"
+            style="font-size: 0.85rem; margin-left: 4px; vertical-align: middle"
+            >Offline</span
+          >
+        </div>
+        <div class="ns-actions">
+          <button id="logout-btn" class="ns-logout">Sair</button>
+        </div>
+      </div>
+    </header>
+
     <div class="snowflakes" id="snowflakes"></div>
 
     <!-- Popup de regras do sorteio -->
     <div id="rules-modal">
-        <div class="rules-card">
-            <div class="rules-header">
-                <span class="rules-icon">⚠️</span>
-                <div>
-                    <h3>Regras do Sorteio</h3>
-                    <p>Leia atentamente antes de participar</p>
-                </div>
-            </div>
-            <div class="rules-body">
-                <ul>
-                    <li>Assista ao vídeo para liberar seus números da sorte.</li>
-                    <li>Guarde seu comprovante de participação.</li>
-                    <li>O sorteio é transparente e auditável.</li>
-                    <li>Números sorteados são destacados em tempo real.</li>
-                    <li>Ao participar, você concorda com o regulamento oficial.</li>
-                </ul>
-            </div>
-            <div class="rules-actions">
-                <button id="rules-accept-btn" class="btn btn-primary">Estou de acordo</button>
-            </div>
+      <div class="rules-card">
+        <div class="rules-header">
+          <span class="rules-icon">⚠️</span>
+          <div>
+            <h3>Regras do Sorteio</h3>
+            <p>Leia atentamente antes de participar</p>
+          </div>
         </div>
+        <div class="rules-body">
+          <ul>
+            <li>Assista ao vídeo para liberar seus números da sorte.</li>
+            <li>Guarde seu comprovante de participação.</li>
+            <li>O sorteio é transparente e auditável.</li>
+            <li>Números sorteados são destacados em tempo real.</li>
+            <li>Ao participar, você concorda com o regulamento oficial.</li>
+          </ul>
+        </div>
+        <div class="rules-actions">
+          <button id="rules-accept-btn" class="btn btn-primary">
+            Estou de acordo
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="container">
-        <h1>🎄 Natal da Sorte 🎄</h1>
-        <p class="subtitle">Sorteio Online Especial de Natal</p>
+      <h1>🎄 Natal da Sorte 🎄</h1>
+      <p class="subtitle">Sorteio Online Especial de Natal</p>
 
-        <div class="video-section">
-            <div class="video-wrapper">
-                <!-- YouTube Player com API habilitada -->
-              <iframe id="youtube-player" width="1236" height="695" src="https://www.youtube.com/embed/J_wknYevNKE?enablejsapi=1&origin=http://localhost:8080" 
-              title="Sorteio da promoção NATAL DA SORTE" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              referrerpolicy="strict-origin-when-cross-origin" 
-              allowfullscreen></iframe>
-            </div>
+      <div class="video-section">
+        <div class="video-wrapper">
+          <!-- YouTube Player com API habilitada -->
+          <iframe
+            id="youtube-player"
+            width="1236"
+            height="695"
+            src="https://www.youtube.com/embed/J_wknYevNKE?enablejsapi=1&origin=http://localhost:8080"
+            title="Sorteio da promoção NATAL DA SORTE"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
         </div>
+      </div>
 
-        <div class="timer-section">
-            <div class="timer-label">⏱️ Assista para liberar seu número da sorte</div>
-            <div class="timer-display" id="timer">00:00</div>
-            <div class="timer-message" id="timer-message">
-                ▶️ Inicie o vídeo para iniciar a contagem!
-            </div>
+      <div class="timer-section">
+        <div class="timer-label">
+          ⏱️ Assista para liberar seu número da sorte
         </div>
-           <!------sessão dos numeros sorteados ------------------->
-        <div class="number-section">
-            <div class="number-label">🎁 Seus Números da Sorte</div>
-            <div class="number-display locked" id="lucky-number">
-                <span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span>
-            </div>
+        <div class="timer-display" id="timer">00:00</div>
+        <div class="timer-message" id="timer-message">
+          ▶️ Inicie o vídeo para iniciar a contagem!
         </div>
+      </div>
+      <!------sessão dos numeros sorteados ------------------->
+      <div class="number-section">
+        <button class="number-label" id="generate-btn">
+          🎁 Gere seus Números da Sorte
+        </button>
+        <div class="number-display locked" id="lucky-number">
+          <span>00</span><span>00</span><span>00</span><span>00</span
+          ><span>00</span> <span>00</span><span>00</span><span>00</span
+          ><span>00</span><span>00</span>
+        </div>
+      </div>
 
-        <!-- Modal do Ganhador -->
-        <div id="winner-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center;">
-            <div style="background: linear-gradient(135deg, #c41e3a 0%, #8b1428 100%); padding: 50px; border-radius: 24px; text-align: center; max-width: 600px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: bounce 0.6s ease-in-out;">
-                <div style="font-size: 80px; margin-bottom: 20px;">🏆</div>
-                <h2 style="color: #fbbf24; font-size: 48px; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0,0,0,0.3);">PARABÉNS!</h2>
-                <p style="color: white; font-size: 24px; font-weight: 700; margin-bottom: 30px;">VOCÊ É O GANHADOR!</p>
-                <p style="color: rgba(255,255,255,0.9); font-size: 18px;">Todos os seus números foram sorteados!</p>
-            </div>
+      <!-- Modal do Ganhador -->
+      <div
+        id="winner-modal"
+        style="
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 9999;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div
+          style="
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1428 100%);
+            padding: 50px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: bounce 0.6s ease-in-out;
+          "
+        >
+          <div style="font-size: 80px; margin-bottom: 20px">🏆</div>
+          <h2
+            style="
+              color: #fbbf24;
+              font-size: 48px;
+              margin-bottom: 15px;
+              text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            "
+          >
+            PARABÉNS!
+          </h2>
+          <p
+            style="
+              color: white;
+              font-size: 24px;
+              font-weight: 700;
+              margin-bottom: 30px;
+            "
+          >
+            VOCÊ É O GANHADOR!
+          </p>
+          <p style="color: rgba(255, 255, 255, 0.9); font-size: 18px">
+            Todos os seus números foram sorteados!
+          </p>
         </div>
+      </div>
 
-        <div class="info-section">
-            <div class="info-card">
-                <div class="info-icon">🎯</div>
-                <h4>Sorteio ao Vivo</h4>
-                <p>Acompanhe em tempo real pelo YouTube</p>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">🎁</div>
-                <h4>Prêmios Incríveis</h4>
-                <p>Você concorre até 20 mil reais em prêmios</p>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">✨</div>
-                <h4>100% Transparente</h4>
-                <p>Sorteio justo e verificável</p>
-            </div>
+      <div class="info-section">
+        <div class="info-card">
+          <div class="info-icon">🎯</div>
+          <h4>Sorteio ao Vivo</h4>
+          <p>Acompanhe em tempo real pelo YouTube</p>
         </div>
+        <div class="info-card">
+          <div class="info-icon">🎁</div>
+          <h4>Prêmios Incríveis</h4>
+          <p>Você concorre até 20 mil reais em prêmios</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">✨</div>
+          <h4>100% Transparente</h4>
+          <p>Sorteio justo e verificável</p>
+        </div>
+      </div>
     </div>
 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>🎄 Natal da Sorte</h3>
-                <p>Celebrando o espírito natalino com muita alegria e prêmios!</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Contato</h4>
-                <p>📧 falazé@gmail.com</p>
-                <p>📱 WhatsApp: (75) 9 8131-2855</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Redes Sociais</h4>
-                <div class="social-links">
-                    <a href="#" class="social-link">📘 Facebook</a>
-                    <a href="#" class="social-link">📸 Instagram</a>
-                    <a href="#" class="social-link">🎥 YouTube</a>
-                </div>
-            </div>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>🎄 Natal da Sorte</h3>
+          <p>Celebrando o espírito natalino com muita alegria e prêmios!</p>
         </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; Zé Roberto Propaganda - Todos os direitos reservados</p>
-            <p class="footer-disclaimer">⚠️ Promoção válida conforme regulamento. Participe de forma consciente.</p>
+
+        <div class="footer-section">
+          <h4>Contato</h4>
+          <p>📧 falazé@gmail.com</p>
+          <p>📱 WhatsApp: (75) 9 8131-2855</p>
         </div>
+
+        <div class="footer-section">
+          <h4>Redes Sociais</h4>
+          <div class="social-links">
+            <a href="#" class="social-link">📘 Facebook</a>
+            <a href="#" class="social-link">📸 Instagram</a>
+            <a href="#" class="social-link">🎥 YouTube</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; Zé Roberto Propaganda - Todos os direitos reservados</p>
+        <p class="footer-disclaimer">
+          ⚠️ Promoção válida conforme regulamento. Participe de forma
+          consciente.
+        </p>
+      </div>
     </footer>
 
     <!-- JavaScript -->
     <script src="/js/utils.js"></script>
     <script src="/js/auth.js"></script>
     <script src="/js/script.js"></script>
-</body>
+    <script>
+      const email = "richardjanebo@gmail.com"; // substitua pelo usuário logado
+
+      const statusIndicator = document.getElementById("user-status");
+      const statusText = document.getElementById("status-text");
+
+      // Conecta ao WebSocket
+      const socket = new SockJS("/ws");
+      const stompClient = Stomp.over(socket);
+
+      stompClient.connect({}, () => {
+        console.log("Conectado ao WebSocket");
+
+        // informa ao backend que usuário está online
+        fetch(`/api/user-online?email=${email}`);
+
+        // escuta atualizações de presença
+        stompClient.subscribe("/topic/online-status", (msg) => {
+          const onlineUsers = JSON.parse(msg.body);
+          const online = onlineUsers.includes(email);
+
+          if (online) {
+            statusIndicator.style.backgroundColor = "green";
+            statusText.textContent = "Online";
+          } else {
+            statusIndicator.style.backgroundColor = "red";
+            statusText.textContent = "Offline";
+          }
+        });
+      });
+
+      // envia sinal de offline ao fechar a aba
+      window.addEventListener("beforeunload", () => {
+        navigator.sendBeacon(`/api/user-offline?email=${email}`);
+      });
+
+      stompClient.connect(
+        {},
+        () => {
+          console.log("Conectado ao WebSocket");
+
+          fetch(`/api/user-online?email=${email}`);
+
+          stompClient.subscribe("/topic/online-status", (msg) => {
+            const onlineUsers = JSON.parse(msg.body);
+            const online = onlineUsers.includes(email);
+
+            if (online) {
+              statusIndicator.style.backgroundColor = "green";
+              statusText.textContent = "Online";
+            } else {
+              statusIndicator.style.backgroundColor = "red";
+              statusText.textContent = "Offline";
+            }
+          });
+        },
+        (error) => {
+          // Aqui capturamos erro de conexão ou perda de servidor
+          console.warn("Conexão perdida:", error);
+          statusIndicator.style.backgroundColor = "red";
+          statusText.textContent = "Offline";
+        }
+      );
+    </script>
+  </body>
 </html>
-
-
