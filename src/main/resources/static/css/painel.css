@@ -6,9 +6,13 @@
 
 /* Reset CSS Moderno */
 *, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 /* Variáveis CSS - Design System */
@@ -276,7 +280,7 @@ body {
     color: var(--color-text-light);
     min-height: 100vh;
     overflow-x: hidden;
-    padding-top: 64px;
+    padding: 20px;
 }
 
 /* ========================================
@@ -384,11 +388,12 @@ body {
 
 /* Container principal */
 .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-    z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 10;
 }
 
 /* Título principal */
@@ -488,7 +493,6 @@ body {
     padding: 8px 16px;
     border-radius: 999px;
     margin-bottom: 18px;
-    cursor: pointer;
 }
 
 /* Exibição dos números da sorte */
@@ -782,6 +786,15 @@ body.login-page::before {
     padding: 36px 32px;
 }
 
+/* Sidebar genérica (quando existir) */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  max-width: 100%;
+}
+
 .form-content {
     display: none;
 }
@@ -1004,12 +1017,13 @@ body.login-page::before {
 
 /* Header */
 .admin-page .header {
-  max-width: 1100px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto 24px;
   padding: 40px 36px;
   background: linear-gradient(135deg, #ffffff 0%, #f9f9fb 100%);
   border: 3px solid #f4d35e;
-  border-radius: var(--radius);
+  border-radius: 14px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
@@ -1100,8 +1114,9 @@ body.login-page::before {
 
 /* Cards de estatística */
 .stats-grid {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto 28px;
+  padding: 0 20px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
@@ -1230,6 +1245,8 @@ body.login-page::before {
   border-radius: 12px; 
   border: 3px solid #e5e7eb;
   background: #ffffff;
+  margin: 0 auto 24px;
+  max-width: 1200px;
 }
 .users-table table { 
   width: 100%; 
@@ -1623,7 +1640,7 @@ body.login-page::before {
   border-radius: 14px;
   padding: 32px;
   margin: 0 auto 24px;
-  max-width: 1100px;
+  max-width: 1200px;
   border: 2px solid #e5e7eb;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
@@ -1718,7 +1735,7 @@ body.login-page::before {
   border-radius: 14px;
   padding: 32px;
   margin: 0 auto 24px;
-  max-width: 1100px;
+  max-width: 1200px;
   border: 2px solid #e5e7eb;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
@@ -1949,6 +1966,196 @@ body.login-page::before {
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
+/* Menu Hambúrguer Responsivo */
+.menu-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.menu-hamburger span {
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.menu-hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
+}
+
+.menu-hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Responsividade do Menu */
+@media (max-width: 768px) {
+  body.admin-page {
+    overflow-x: hidden;
+  }
+
+  body.admin-page.menu-open {
+    overflow: hidden;
+  }
+
+  .menu-hamburger {
+    display: flex;
+  }
+
+  .top-nav {
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 12px 12px;
+  }
+
+  .top-nav__brand {
+    flex: 1;
+  }
+
+  .top-nav__links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, #0b6b4a 0%, #074d35 100%);
+    flex-direction: column;
+    gap: 0;
+    padding: 80px 0 12px 0;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    visibility: hidden;
+  }
+
+  .top-nav__links.active {
+    right: 0;
+    visibility: visible;
+  }
+
+  .top-nav__link {
+    border-radius: 0;
+    margin: 0;
+    padding: 14px 16px;
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.2s ease;
+    display: block;
+    text-align: left;
+    box-shadow: none;
+  }
+
+  .top-nav__link:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .top-nav__link--active {
+    background: linear-gradient(135deg, #0e7f59 0%, #0b6b4a 100%);
+    border-left: 4px solid #f59e0b;
+    padding-left: 12px;
+  }
+
+  .top-nav__link--exit {
+    background: linear-gradient(135deg, #c41e3a 0%, #9b1528 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+  }
+
+  .top-nav__link--exit:hover {
+    background: linear-gradient(135deg, #d42d40 0%, #ab1d32 100%);
+  }
+
+  /* Overlay quando menu está aberto */
+  body.menu-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .menu-hamburger {
+    display: none !important;
+  }
+
+  .top-nav__links {
+    display: flex !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    right: auto !important;
+    background: transparent !important;
+    flex-direction: row !important;
+    padding: 0 !important;
+    gap: 12px !important;
+    box-shadow: none !important;
+    transition: none !important;
+    z-index: auto !important;
+  }
+
+  .top-nav__link {
+    border-radius: 10px !important;
+    margin: 0 !important;
+    padding: 8px 14px !important;
+    background: linear-gradient(135deg, #e5f3ec 0%, #d3ecdf 100%) !important;
+    border-top: none !important;
+    border: 1px solid transparent !important;
+    color: #0b6b4a !important;
+    box-shadow: 0 6px 14px rgba(11, 107, 74, 0.12) !important;
+    display: inline-flex !important;
+    text-align: center !important;
+  }
+
+  .top-nav__link:hover {
+    background: linear-gradient(135deg, #d3ecdf 0%, #c1e4d0 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 10px 20px rgba(11, 107, 74, 0.16) !important;
+  }
+
+  .top-nav__link--exit {
+    background: linear-gradient(135deg, #c41e3a 0%, #9b1528 100%) !important;
+    color: #fff !important;
+    margin-top: 0 !important;
+    position: static !important;
+    bottom: auto !important;
+  }
+
+  .top-nav__link--exit:hover {
+    background: linear-gradient(135deg, #d42d40 0%, #ab1d32 100%) !important;
+  }
+}
+
 .top-nav__link:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(11, 107, 74, 0.16);
@@ -1974,3 +2181,871 @@ body.login-page::before {
 .users-table tbody tr:hover {
   background: rgba(11, 107, 74, 0.08);
 }
+
+/* ========================================
+   MEDIA QUERIES - RESPONSIVIDADE
+   ======================================== */
+
+/* ========== CELULARES (até 480px) ========== */
+@media (max-width: 480px) {
+  body.admin-page {
+    padding: 12px;
+  }
+
+  .admin-page .header {
+    padding: 20px 16px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+
+  .admin-page .header h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .admin-page .header p {
+    font-size: 0.9em;
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    padding: 10px 14px;
+    font-size: 0.9em;
+    width: 100%;
+  }
+
+  .btn-delete {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-card h3 {
+    font-size: 0.85em;
+  }
+
+  .stat-card .number {
+    font-size: 24px;
+  }
+
+  .draw-section {
+    padding: 16px 12px;
+    margin-bottom: 0;
+  }
+
+  .draw-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+
+  .draw-section > div:first-of-type {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .draw-section input[type="number"],
+  .draw-section button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.95em;
+  }
+
+  .draw-section h3 {
+    font-size: 1em;
+    margin: 16px 0 8px;
+  }
+
+  #drawn-numbers-display {
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .drawn-ball {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .remove-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+    top: -6px;
+    right: -6px;
+  }
+
+  .winner-section {
+    padding: 16px 12px;
+    margin-bottom: 0;
+  }
+
+  .winner-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+
+  .winner-card {
+    padding: 20px 16px;
+  }
+
+  .winner-icon {
+    font-size: 2.5em;
+    margin-bottom: 12px;
+  }
+
+  .winner-card h3 {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+  }
+
+  .winner-card p {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+
+  .winner-numbers {
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .winner-numbers .dezena {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .lucky-numbers-section {
+    padding: 16px;
+  }
+
+  .lucky-numbers-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+
+  .numbers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .number-card {
+    padding: 12px;
+  }
+
+  .number-card .lucky-number {
+    font-size: 18px;
+  }
+
+  .number-card .user-name {
+    font-size: 0.75em;
+  }
+
+  .number-card .timestamp {
+    font-size: 0.7em;
+  }
+
+  .users-section {
+    padding: 16px;
+  }
+
+  .users-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+
+  .search-bar {
+    margin: 8px 0 12px;
+  }
+
+  .search-bar input {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+
+  .users-table {
+    overflow-x: auto;
+    border-radius: 8px;
+  }
+
+  .users-table table {
+    font-size: 0.8em;
+    min-width: 600px;
+  }
+
+  .users-table thead th {
+    padding: 8px 4px;
+    font-size: 0.75em;
+    font-weight: 700;
+  }
+
+  .users-table tbody td {
+    padding: 8px 4px;
+    font-size: 0.8em;
+  }
+
+  .users-table thead th:nth-child(1) { width: 15%; }
+  .users-table thead th:nth-child(2) { width: 20%; }
+  .users-table thead th:nth-child(3) { width: 12%; }
+  .users-table thead th:nth-child(4) { width: 12%; }
+  .users-table thead th:nth-child(5) { width: 12%; }
+  .users-table thead th:nth-child(6) { width: 10%; }
+  .users-table thead th:nth-child(7) { width: 8%; }
+  .users-table thead th:nth-child(8) { width: 11%; }
+
+  .top-nav {
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px 12px;
+  }
+
+  .top-nav__brand {
+    gap: 6px;
+    font-size: 1em;
+  }
+
+  .top-nav__logo {
+    width: 24px;
+    height: 24px;
+  }
+
+  .top-nav__links {
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .top-nav__link {
+    padding: 6px 10px;
+    font-size: 0.85em;
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .refresh-btn {
+    width: 48px;
+    height: 48px;
+    right: 12px;
+    bottom: 12px;
+    font-size: 1.2em;
+  }
+
+  .tab-menu {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tab-link {
+    padding: 10px 12px;
+    font-size: 0.9em;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  #auth-modal > div {
+    max-width: 90vw;
+    padding: 24px 16px;
+  }
+
+  #auth-modal h2 {
+    font-size: 1.5em;
+  }
+
+  #auth-modal input {
+    padding: 10px 12px;
+    font-size: 0.95em;
+  }
+
+  #auth-modal button {
+    padding: 12px;
+    font-size: 1em;
+  }
+}
+
+/* ========== TABLETS (481px até 768px) ========== */
+@media (min-width: 481px) and (max-width: 768px) {
+  body.admin-page {
+    padding: 16px;
+  }
+
+  .admin-page .header {
+    padding: 28px 20px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+  }
+
+  .admin-page .header h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+
+  .admin-page .header p {
+    font-size: 0.95em;
+    margin-bottom: 18px;
+  }
+
+  .btn {
+    padding: 11px 16px;
+    font-size: 0.95em;
+  }
+
+  .btn-delete {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    padding: 18px;
+  }
+
+  .stat-card h3 {
+    font-size: 0.95em;
+  }
+
+  .stat-card .number {
+    font-size: 28px;
+  }
+
+  .draw-section {
+    padding: 20px;
+    margin: 0 16px 24px;
+    border-radius: 12px;
+  }
+
+  .draw-section h2 {
+    font-size: 1.3em;
+    margin-bottom: 14px;
+  }
+
+  .draw-section > div:first-of-type {
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .draw-section input[type="number"] {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px;
+  }
+
+  .draw-section button {
+    padding: 10px 16px;
+    font-size: 0.9em;
+  }
+
+  .draw-section h3 {
+    font-size: 1.05em;
+    margin: 16px 0 10px;
+  }
+
+  #drawn-numbers-display {
+    gap: 8px;
+  }
+
+  .drawn-ball {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .remove-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+  }
+
+  .winner-section {
+    padding: 20px;
+    margin: 0 16px 24px;
+    border-radius: 12px;
+  }
+
+  .winner-section h2 {
+    font-size: 1.3em;
+    margin-bottom: 14px;
+  }
+
+  .winner-card {
+    padding: 24px;
+  }
+
+  .winner-icon {
+    font-size: 3em;
+    margin-bottom: 14px;
+  }
+
+  .winner-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 14px;
+  }
+
+  .winner-card p {
+    font-size: 0.95em;
+    margin-bottom: 10px;
+  }
+
+  .winner-numbers {
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .winner-numbers .dezena {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .lucky-numbers-section {
+    padding: 20px;
+  }
+
+  .lucky-numbers-section h2 {
+    font-size: 1.3em;
+    margin-bottom: 14px;
+  }
+
+  .numbers-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .number-card {
+    padding: 14px;
+  }
+
+  .number-card .lucky-number {
+    font-size: 22px;
+  }
+
+  .number-card .user-name {
+    font-size: 0.8em;
+  }
+
+  .number-card .timestamp {
+    font-size: 0.75em;
+  }
+
+  .users-section {
+    padding: 20px;
+  }
+
+  .users-section h2 {
+    font-size: 1.3em;
+    margin-bottom: 14px;
+  }
+
+  .search-bar {
+    margin: 8px 0 14px;
+  }
+
+  .search-bar input {
+    padding: 10px 14px;
+    font-size: 0.95em;
+  }
+
+  .users-table {
+    overflow-x: auto;
+    border-radius: 10px;
+  }
+
+  .users-table table {
+    font-size: 0.85em;
+  }
+
+  .users-table thead th {
+    padding: 10px 6px;
+    font-size: 0.8em;
+  }
+
+  .users-table tbody td {
+    padding: 10px 6px;
+    font-size: 0.85em;
+  }
+
+  .users-table thead th:nth-child(1) { width: 16%; }
+  .users-table thead th:nth-child(2) { width: 18%; }
+  .users-table thead th:nth-child(3) { width: 13%; }
+  .users-table thead th:nth-child(4) { width: 12%; }
+  .users-table thead th:nth-child(5) { width: 13%; }
+  .users-table thead th:nth-child(6) { width: 10%; }
+  .users-table thead th:nth-child(7) { width: 8%; }
+  .users-table thead th:nth-child(8) { width: 10%; }
+
+  .top-nav {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 10px 14px;
+  }
+
+  .top-nav__brand {
+    gap: 8px;
+    font-size: 1.1em;
+  }
+
+  .top-nav__logo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .top-nav__links {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .top-nav__link {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+
+  .refresh-btn {
+    width: 52px;
+    height: 52px;
+    right: 16px;
+    bottom: 16px;
+    font-size: 1.4em;
+  }
+
+  .tab-menu {
+    gap: 10px;
+  }
+
+  .tab-link {
+    padding: 12px 14px;
+    font-size: 0.95em;
+  }
+
+  #auth-modal > div {
+    max-width: 85vw;
+    padding: 28px 20px;
+  }
+
+  #auth-modal h2 {
+    font-size: 1.8em;
+  }
+
+  #auth-modal input {
+    padding: 11px 13px;
+    font-size: 0.95em;
+  }
+
+  #auth-modal button {
+    padding: 13px;
+    font-size: 1em;
+  }
+}
+
+/* ========== COMPUTADORES (acima de 769px) ========== */
+@media (min-width: 769px) {
+  body.admin-page {
+    padding: 40px 20px;
+  }
+
+  .admin-page .header {
+    padding: 40px 36px;
+    margin-bottom: 24px;
+  }
+
+  .admin-page .header h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .admin-page .header p {
+    font-size: 1.05em;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    padding: 12px 18px;
+    font-size: 1em;
+    width: auto;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .stat-card {
+    padding: 24px;
+  }
+
+  .stat-card h3 {
+    font-size: 1em;
+  }
+
+  .stat-card .number {
+    font-size: 32px;
+  }
+
+  .draw-section {
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+
+  .draw-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 16px;
+  }
+
+  .draw-section > div:first-of-type {
+    flex-direction: row;
+    gap: 14px;
+  }
+
+  .draw-section input[type="number"] {
+    flex: 1;
+    padding: 12px;
+  }
+
+  .draw-section button {
+    padding: 12px 18px;
+    font-size: 1em;
+  }
+
+  .draw-section h3 {
+    font-size: 1.1em;
+    margin: 18px 0 12px;
+  }
+
+  #drawn-numbers-display {
+    gap: 10px;
+  }
+
+  .drawn-ball {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .remove-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .winner-section {
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+
+  .winner-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 16px;
+  }
+
+  .winner-card {
+    padding: 28px;
+  }
+
+  .winner-icon {
+    font-size: 3.5em;
+    margin-bottom: 16px;
+  }
+
+  .winner-card h3 {
+    font-size: 1.3em;
+    margin-bottom: 16px;
+  }
+
+  .winner-card p {
+    font-size: 1em;
+    margin-bottom: 12px;
+  }
+
+  .winner-numbers {
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .winner-numbers .dezena {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .lucky-numbers-section {
+    padding: 24px;
+  }
+
+  .lucky-numbers-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 16px;
+  }
+
+  .numbers-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .number-card {
+    padding: 16px;
+  }
+
+  .number-card .lucky-number {
+    font-size: 24px;
+  }
+
+  .number-card .user-name {
+    font-size: 0.9em;
+  }
+
+  .number-card .timestamp {
+    font-size: 0.8em;
+  }
+
+  .users-section {
+    padding: 24px;
+  }
+
+  .users-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 16px;
+  }
+
+  .search-bar {
+    margin: 8px 0 16px;
+  }
+
+  .search-bar input {
+    padding: 12px 16px;
+    font-size: 1em;
+  }
+
+  .users-table {
+    overflow-x: visible;
+    border-radius: 12px;
+  }
+
+  .users-table table {
+    font-size: 1em;
+  }
+
+  .users-table thead th {
+    padding: 12px 8px;
+    font-size: 0.9em;
+  }
+
+  .users-table tbody td {
+    padding: 12px 8px;
+    font-size: 0.95em;
+  }
+
+  .users-table thead th:nth-child(1) { width: 18%; }
+  .users-table thead th:nth-child(2) { width: 18%; }
+  .users-table thead th:nth-child(3) { width: 12%; }
+  .users-table thead th:nth-child(4) { width: 12%; }
+  .users-table thead th:nth-child(5) { width: 15%; }
+  .users-table thead th:nth-child(6) { width: 10%; }
+  .users-table thead th:nth-child(7) { width: 8%; }
+  .users-table thead th:nth-child(8) { width: 12%; }
+
+  .top-nav {
+    padding: 12px 18px;
+  }
+
+  .top-nav__brand {
+    gap: 8px;
+    font-size: 1.15em;
+  }
+
+  .top-nav__logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .top-nav__links {
+    gap: 10px;
+  }
+
+  .top-nav__link {
+    padding: 8px 14px;
+    font-size: 1em;
+  }
+
+  .refresh-btn {
+    width: 56px;
+    height: 56px;
+    right: 24px;
+    bottom: 24px;
+    font-size: 1.5em;
+  }
+
+  .tab-menu {
+    gap: 12px;
+  }
+
+  .tab-link {
+    padding: 14px 18px;
+    font-size: 1em;
+  }
+
+  #auth-modal > div {
+    max-width: 500px;
+    padding: 36px 32px;
+  }
+
+  #auth-modal h2 {
+    font-size: 2em;
+  }
+
+  #auth-modal input {
+    padding: 13px 16px;
+    font-size: 1em;
+  }
+
+  #auth-modal button {
+    padding: 16px;
+    font-size: 1.1em;
+  }
+}
+
+/* ========== LARGE SCREENS (acima de 1200px) ========== */
+@media (min-width: 1200px) {
+  .max-width: 1100px;
+  body.admin-page {
+    padding: 40px 20px;
+  }
+
+  .admin-page .header {
+    max-width: 1100px;
+    padding: 40px 36px;
+  }
+
+  .stats-grid {
+    max-width: 1100px;
+  }
+
+  .draw-section,
+  .winner-section,
+  .lucky-numbers-section,
+  .users-section {
+    max-width: 1100px;
+  }
+
+  .numbers-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .tab-link {
+    padding: 14px 20px;
+    font-size: 1.05em;
+  }
+}
+

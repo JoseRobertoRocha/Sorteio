@@ -33,6 +33,12 @@
 	</properties>
 	<dependencies>
 
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
+		</dependency>
+
 
 		<!-- WebSocket Spring Boot -->
 		<dependency>
@@ -46,11 +52,11 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
