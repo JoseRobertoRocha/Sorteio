@@ -18,10 +18,12 @@ import com.conecta.sorteio_api.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final UserAdminMapper mapper;
+    private final SweepsatakeService sweepsatakeService;
 
-    public UserService(UserRepository userRepository,UserAdminMapper mapper){
+    public UserService(UserRepository userRepository,UserAdminMapper mapper, SweepsatakeService sweepsatakeService){
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.sweepsatakeService = sweepsatakeService;
     }
 
 
@@ -34,6 +36,7 @@ public class UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
             throw new UserAlreadyExistException();
         }
+
         user.setRole(Role.ADMIN);
 
         return userRepository.save(user);

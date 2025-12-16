@@ -27,6 +27,8 @@ public class Sweepstake {
 
     private String name;
 
+    private String url;
+
     private String image;
 
     private String prize;
@@ -46,12 +48,13 @@ public class Sweepstake {
     public Sweepstake() {}
 
 
-    private Sweepstake(String name, String image, String prize, User adminUser , LocalDateTime date) {
+    private Sweepstake(String name, String image, String prize, User adminUser , LocalDateTime date,String url) {
         this.name = name;
         this.image = image;
         this.prize = prize;
         this.adminUser = adminUser;
         this.date = date;
+        this.url = url;
     }
 
     public void setAdminUser(User adminUser){
@@ -71,6 +74,7 @@ public class Sweepstake {
     public LocalDateTime getCreateAt() { return createAt; }
     public LocalDateTime getUpdateAt() { return updateAt; }
     public List<Bet> getBets() { return bets; }
+    public String getUrl(){return url;}
 
    
     @PrePersist
@@ -95,6 +99,7 @@ public class Sweepstake {
         private String prize;
         private User adminUser;
         private LocalDateTime date;
+        private String url;
 
         public Builder name(String name) {
             this.name = name;
@@ -121,8 +126,13 @@ public class Sweepstake {
             return this;
         }
 
+        public Builder url(String url){
+            this.url = url;
+            return this;
+        }
+
         public Sweepstake build() {
-            return new Sweepstake(name, image, prize, adminUser,date);
+            return new Sweepstake(name, image, prize, adminUser,date,url);
         }
     }
 
