@@ -41,7 +41,7 @@ public class BetController {
 
     @GetMapping("generate-numbers")
     public ResponseEntity<Map<String,int[]>> getRadomNumbers(){
-        int[] numbers = betService.generateNumbers();
+        int[] numbers = betService.save();
         return ResponseEntity.ok().body(Map.of("numeros", numbers));
     } 
     

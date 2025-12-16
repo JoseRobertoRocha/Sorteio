@@ -19,9 +19,13 @@ public class BetService {
     }
 
 
-    public int[] save(Bet bet){
-
+    public int[] save(){
         int[] number = generateNumbers();
+        new Bet().builder()
+        .sweepstakeNumber(number)
+        .
+
+
         betRepository.save(bet);
         return number;
 

@@ -14,5 +14,7 @@ public class SweepsatakeMapper {
             .prize(sweepsatakeRequest.prize())
             .build();
     }
+
+    
     
 }

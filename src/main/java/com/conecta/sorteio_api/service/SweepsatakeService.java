@@ -26,9 +26,6 @@ public class SweepsatakeService {
     }
 
 
-
-
-
     // @Value("${upload.folder}")
     private String uploadFolder;
 
@@ -53,7 +50,6 @@ public class SweepsatakeService {
         sweepstake.setAdminUser(new User());
 
         sweepsatakeRepository.save(sweepstake);
-
 
     }
 
