@@ -89,11 +89,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("users")
-    public List<User> findAll() {
-        System.out.println(userService.getByEmail().toString());
-        return userService.findAll();
-
-    }
+   
 
 }

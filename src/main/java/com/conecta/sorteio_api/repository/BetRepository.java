@@ -22,4 +22,7 @@ public interface BetRepository extends JpaRepository<Bet, UUID> {
         """, nativeQuery = true)
     List<Bet> findBetsContainingNumber(@Param("number") int number);
 
+
+     List<Bet> findByUserId(UUID userId);
+
 }

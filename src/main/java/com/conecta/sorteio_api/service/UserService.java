@@ -2,20 +2,26 @@ package com.conecta.sorteio_api.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.conecta.sorteio_api.dto.UserAdminDTO;
 import com.conecta.sorteio_api.enuns.Role;
 import com.conecta.sorteio_api.exeception.UserAlreadyExistException;
 import com.conecta.sorteio_api.exeception.UserNotFoundException;
+import com.conecta.sorteio_api.mapper.UserAdminMapper;
 import com.conecta.sorteio_api.model.User;
 import com.conecta.sorteio_api.repository.UserRepository;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserAdminMapper mapper;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository,UserAdminMapper mapper){
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
 
@@ -28,7 +34,7 @@ public class UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
             throw new UserAlreadyExistException();
         }
-        user.setRole(Role.CUSTOMER);
+        user.setRole(Role.ADMIN);
 
         return userRepository.save(user);
     }
@@ -40,6 +46,15 @@ public class UserService {
     public User getByEmail(){
         return userRepository.findByEmail("richardjanebo@gmail.com").orElseThrow(UserNotFoundException::new);
     }
+
+
+    public Page<UserAdminDTO> findUserLimit(Pageable pageable) {
+        return userRepository
+                .findAll(pageable)
+                .map(mapper::toDTO);
+    }
+
+
 
     
 }

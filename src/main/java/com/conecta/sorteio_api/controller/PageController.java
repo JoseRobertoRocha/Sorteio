@@ -22,15 +22,17 @@ public class PageController {
         return "index";
     }
     
-    @GetMapping("/cadastro")
+    @GetMapping("/cadastros")
     public String cadastro(){
-        return "cadastro";
+        return "cadastros";
     }
 
     @GetMapping("/resultado")
     public String resultado(){
         return "resultado";
     }
+
+   
 
 
 }

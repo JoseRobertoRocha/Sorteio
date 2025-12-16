@@ -3,13 +3,14 @@ package com.conecta.sorteio_api.userSecurity;
 import java.util.Collection;
 import java.util.List;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.conecta.sorteio_api.enuns.Role;
 import com.conecta.sorteio_api.model.User;
+
+import io.micrometer.common.lang.Nullable;
 
 
 public class UserSecurity implements UserDetails {

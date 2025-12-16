@@ -19,10 +19,11 @@ public class BetService {
     }
 
 
-    public void save(Bet bet){
+    public int[] save(Bet bet){
 
         int[] number = generateNumbers();
         betRepository.save(bet);
+        return number;
 
     }
 

@@ -11,20 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.conecta.sorteio_api.dto.SweepstakeNumberRequestDTO;
 import com.conecta.sorteio_api.dto.SweepstakeNumberResponseDTO;
+import com.conecta.sorteio_api.mapper.SweepsatakeMapper;
 import com.conecta.sorteio_api.service.BetService;
 
 @RestController
 @RequestMapping("api")
 public class BetController {
     private final BetService betService;
+    private final SweepsatakeMapper mapper;
 
-    public BetController(BetService betService){
+    public BetController(BetService betService,SweepsatakeMapper mapper){
         this.betService = betService;
+        this.mapper = mapper;
     }
 
 
     @PostMapping("register/numbers")
     public ResponseEntity<SweepstakeNumberResponseDTO> registerNumberSweepstake(@RequestBody SweepstakeNumberRequestDTO sweepstakeNumberRequestDTO){
+
         SweepstakeNumberResponseDTO numbers = new SweepstakeNumberResponseDTO(sweepstakeNumberRequestDTO.sweepstakeNumber());
         return ResponseEntity.status(201).body(numbers);
     }
