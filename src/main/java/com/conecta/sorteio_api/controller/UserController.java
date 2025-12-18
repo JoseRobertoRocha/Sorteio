@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.conecta.sorteio_api.dto.LoginResponseDTO;
 import com.conecta.sorteio_api.dto.UserRequestDTO;
 import com.conecta.sorteio_api.dto.UserRequestLogin;
+import com.conecta.sorteio_api.dto.UserResponseDTO;
 import com.conecta.sorteio_api.enuns.Role;
 import com.conecta.sorteio_api.mapper.UserMapper;
 import com.conecta.sorteio_api.model.User;
@@ -87,6 +88,13 @@ public class UserController {
         } else {
             return "redirect:/dashboard";
         }
+    }
+
+    @GetMapping("user")
+    public ResponseEntity< UserResponseDTO> getUserInfo(){
+       User user = userService.getInfo();
+       UserResponseDTO userResponseDTO = userMapper.userToUserResponseDTO(user);
+       return ResponseEntity.ok().body(userResponseDTO);
     }
 
 

@@ -35,20 +35,35 @@ public class Sweepstake {
 
     private LocalDateTime date;
 
+    @Column(columnDefinition = "integer[]")
+    private int[] numbers;
+
+
+    public int [] getNumbers(){
+        return this.numbers;
+    }
+
+    public void setNumbers(int[] number){
+        this.numbers = number;
+    }
+
     @ManyToOne
-    private User adminUser;  
+    private User adminUser;
 
     @OneToMany(mappedBy = "sweepstake", cascade = CascadeType.ALL)
-    private List<Bet> bets; 
+    private List<Bet> bets;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
-  
-    public Sweepstake() {}
+    public void setImagePath(String imagePath) {
+        this.image = imagePath;
+    }
 
+    public Sweepstake() {
+    }
 
-    private Sweepstake(String name, String image, String prize, User adminUser , LocalDateTime date,String url) {
+    private Sweepstake(String name, String image, String prize, User adminUser, LocalDateTime date, String url) {
         this.name = name;
         this.image = image;
         this.prize = prize;
@@ -57,26 +72,50 @@ public class Sweepstake {
         this.url = url;
     }
 
-    public void setAdminUser(User adminUser){
+    public void setAdminUser(User adminUser) {
         this.adminUser = adminUser;
     }
 
-    public void setImage(String image){
+    public void setImage(String image) {
         this.image = image;
     }
 
+    public UUID getId() {
+        return id;
+    }
 
-    public UUID getId() { return id; }
-    public String getName() { return name; }
-    public String getImage() { return image; }
-    public String getPrize() { return prize; }
-    public User getAdminUser() { return adminUser; }
-    public LocalDateTime getCreateAt() { return createAt; }
-    public LocalDateTime getUpdateAt() { return updateAt; }
-    public List<Bet> getBets() { return bets; }
-    public String getUrl(){return url;}
+    public String getName() {
+        return name;
+    }
 
-   
+    public String getImage() {
+        return image;
+    }
+
+    public String getPrize() {
+        return prize;
+    }
+
+    public User getAdminUser() {
+        return adminUser;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
     @PrePersist
     protected void onCreate() {
         createAt = LocalDateTime.now();
@@ -86,7 +125,6 @@ public class Sweepstake {
     protected void onUpdate() {
         updateAt = LocalDateTime.now();
     }
-
 
     public static Builder builder() {
         return new Builder();
@@ -121,21 +159,20 @@ public class Sweepstake {
             return this;
         }
 
-        public Builder date(LocalDateTime date){
-            this.date =date;
+        public Builder date(LocalDateTime date) {
+            this.date = date;
             return this;
         }
 
-        public Builder url(String url){
+        public Builder url(String url) {
             this.url = url;
             return this;
         }
 
         public Sweepstake build() {
-            return new Sweepstake(name, image, prize, adminUser,date,url);
+            return new Sweepstake(name, image, prize, adminUser, date, url);
         }
     }
-
 
     @Override
     public boolean equals(Object o) {

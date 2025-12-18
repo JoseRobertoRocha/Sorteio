@@ -29,26 +29,7 @@ function renderNumbers(numbers) {
   console.log("Números renderizados:", luckyNumberDisplay.innerHTML);
 }
 
-// Função para gerar 10 dezenas aleatórias (01-60)
-function generateLuckyNumber() {
-  // Não gerar novo número se já existir para o usuário atual
-  const currentUser = JSON.parse(
-    localStorage.getItem("natalDaSorteUser") || "{}"
-  );
-  if (currentUser && currentUser.luckyNumber) {
-    return currentUser.luckyNumber;
-  }
-  const dezenas = [];
-  while (dezenas.length < 10) {
-    const num = Math.floor(Math.random() * 60) + 1;
-    if (!dezenas.includes(num)) {
-      dezenas.push(num);
-    }
-  }
-  return dezenas
-    .sort((a, b) => a - b)
-    .map((n) => n.toString().padStart(2, "0"));
-}
+
 
 // Função para formatar o tempo
 function formatTime(seconds) {
@@ -72,6 +53,7 @@ function updateTimer() {
       remaining
     )} para revelar seu número!`;
   } else if (!isNumberRevealed) {
+    generateLuckyNumber();
     revealLuckyNumber();
   }
 }
@@ -731,7 +713,7 @@ function getCurrentUser() {
   return null;
 }
 
-document.getElementById("generate-btn").addEventListener("click", async () => {
+async function generateLuckyNumber () {
   const numberDisplay = document.getElementById("lucky-number");
 
   // bloqueia a área enquanto carrega
@@ -756,4 +738,32 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
     console.error("Erro:", error);
     alert("Não foi possível gerar os números.");
   }
-});
+
+}
+
+// document.getElementById("generate-btn").addEventListener("click", async () => {
+//   const numberDisplay = document.getElementById("lucky-number");
+
+//   // bloqueia a área enquanto carrega
+//   numberDisplay.classList.add("locked");
+
+//   try {
+//     const response = await fetch("/api/generate-numbers"); // ajuste a URL se necessário
+//     if (!response.ok) throw new Error("Erro ao gerar números");
+
+//     const data = await response.json();
+//     const numbers = data.numeros; // array de inteiros
+
+//     // atualiza os spans
+//     const spans = numberDisplay.querySelectorAll("span");
+//     spans.forEach((span, index) => {
+//       span.textContent = numbers[index].toString().padStart(2, "0");
+//     });
+
+//     // desbloqueia
+//     numberDisplay.classList.remove("locked");
+//   } catch (error) {
+//     console.error("Erro:", error);
+//     alert("Não foi possível gerar os números.");
+//   }
+// });

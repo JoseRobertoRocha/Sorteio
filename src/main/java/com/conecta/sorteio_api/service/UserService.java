@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.conecta.sorteio_api.configuration.UserUtil;
 import com.conecta.sorteio_api.dto.UserAdminDTO;
 import com.conecta.sorteio_api.enuns.Role;
 import com.conecta.sorteio_api.exeception.UserAlreadyExistException;
@@ -19,11 +20,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserAdminMapper mapper;
     private final SweepsatakeService sweepsatakeService;
+    private final UserUtil userUtil;
 
-    public UserService(UserRepository userRepository,UserAdminMapper mapper, SweepsatakeService sweepsatakeService){
+    public UserService(UserUtil userUtil ,UserRepository userRepository,UserAdminMapper mapper, SweepsatakeService sweepsatakeService){
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.sweepsatakeService = sweepsatakeService;
+        this.userUtil = userUtil;
     }
 
 
@@ -55,6 +58,11 @@ public class UserService {
         return userRepository
                 .findAll(pageable)
                 .map(mapper::toDTO);
+    }
+
+
+    public User getInfo() {
+        return userUtil.getCurrentUser();
     }
 
 

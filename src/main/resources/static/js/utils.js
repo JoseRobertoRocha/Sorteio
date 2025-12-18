@@ -315,3 +315,67 @@ window.Generate = Generate;
 window.DOM = DOM;
 window.Debounce = Debounce;
 window.Throttle = Throttle;
+
+/* ========================================
+   LÓGICA DO SORTEIO (CENTRALIZADA)
+   ======================================== */
+
+const DrawUtils = {
+    drawnNumbers: [],
+    winnerFound: false,
+    winners: [],
+
+    addNumber(number, bets = []) {
+        if (this.winnerFound) {
+            Notify.warning("Sorteio já encerrado!");
+            return this.drawnNumbers;
+        }
+
+        if (this.drawnNumbers.includes(number)) {
+            return this.drawnNumbers;
+        }
+
+        this.drawnNumbers.push(number);
+        this.checkWinner(bets);
+        return this.drawnNumbers;
+    },
+
+    clear() {
+        this.drawnNumbers = [];
+        this.winnerFound = false;
+        this.winners = [];
+    },
+
+    getNumbers() {
+        return this.drawnNumbers;
+    },
+
+    betContainsAllNumbers(betNumbers = []) {
+        return this.drawnNumbers.every(n => betNumbers.includes(n));
+    },
+
+    filterValidBets(bets = []) {
+        return bets.filter(bet =>
+            this.betContainsAllNumbers(bet.luckyNumbers || [])
+        );
+    },
+
+    checkWinner(bets = []) {
+        const possibleWinners = bets.filter(bet =>
+            this.betContainsAllNumbers(bet.luckyNumbers || []) &&
+            bet.luckyNumbers.length === this.drawnNumbers.length
+        );
+
+        if (possibleWinners.length) {
+            this.winnerFound = true;
+            this.winners = possibleWinners;
+            Notify.success("🏆 Ganhador encontrado!");
+        }
+    }
+};
+
+window.DrawUtils = DrawUtils;
+
+
+// Exporta globalmente
+window.DrawUtils = DrawUtils;

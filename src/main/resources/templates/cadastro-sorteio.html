@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Sorteio</title>
+
+    <link rel="stylesheet" href="/css/Styles.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/admin-sorteio.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Cadastrar Sorteio</h1>
+    <p class="subtitle">Preencha os dados do sorteio</p>
+
+    <form id="sorteioForm" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label>Nome do Sorteio</label>
+            <input type="text" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Prêmio</label>
+            <input type="text" name="prize" required>
+        </div>
+
+        <div class="form-group">
+            <label>Data do Sorteio</label>
+            <input type="datetime-local" name="data" required>
+        </div>
+
+        <div class="form-group">
+            <label>Imagem do Sorteio</label>
+            <input type="file" name="image" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            Cadastrar Sorteio
+        </button>
+
+        <p id="msg" class="msg"></p>
+    </form>
+</div>
+
+<script src="/js/admin-sorteio.js"></script>
+</body>
+</html>

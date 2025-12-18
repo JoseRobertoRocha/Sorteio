@@ -32,6 +32,11 @@ public class PageController {
         return "resultado";
     }
 
+    @GetMapping("/cadastro-sorteio")
+    public String cadastroSorteio(){
+        return "cadastro-sorteio";
+    }
+
    
 
 

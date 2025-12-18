@@ -44,5 +44,7 @@ public class BetController {
         int[] numbers = betService.save();
         return ResponseEntity.ok().body(Map.of("numeros", numbers));
     } 
+
+    
     
 }
