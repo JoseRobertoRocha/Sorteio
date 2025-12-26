@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.conecta.sorteio_api.configuration.UserUtil;
+import com.conecta.sorteio_api.dto.LuckyNumberStatusResponseDTO;
 import com.conecta.sorteio_api.model.Bet;
 import com.conecta.sorteio_api.repository.BetRepository;
 import com.conecta.sorteio_api.repository.SweepsatakeRepository;
@@ -74,5 +75,18 @@ public class BetService {
         return numbers.stream()
                 .mapToInt(Integer::intValue)
                 .toArray();
+    }
+
+    public LuckyNumberStatusResponseDTO getLuckyNumberStatus() {
+        UUID userId = userUtil.getCurrentUser().getId();
+
+        var bets = betRepository.findByUserId(userId);
+
+        if (!bets.isEmpty()) {
+             
+             return new LuckyNumberStatusResponseDTO(true, bets.get(0).getSweepstakeNumber());
+        }
+
+        return new LuckyNumberStatusResponseDTO(false, null);
     }
 }

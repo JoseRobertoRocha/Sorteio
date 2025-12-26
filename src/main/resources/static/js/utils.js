@@ -199,22 +199,22 @@ const Notify = {
 };
 
 // Geradores
-const Generate = {
-    // Gerar ID único
-    id() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    },
+// const Generate = {
+//     // Gerar ID único
+//     id() {
+//         return Date.now().toString(36) + Math.random().toString(36).substr(2);
+//     },
 
-    // Gerar número aleatório
-    randomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    },
+//     // Gerar número aleatório
+//     randomNumber(min, max) {
+//         return Math.floor(Math.random() * (max - min + 1)) + min;
+//     },
 
-    // Gerar número da sorte (4 dígitos)
-    luckyNumber() {
-        return Format.padNumber(this.randomNumber(0, 9999), 4);
-    }
-};
+//     // Gerar número da sorte (4 dígitos)
+//     luckyNumber() {
+//         return Format.padNumber(this.randomNumber(0, 9999), 4);
+//     }
+// };
 
 // Utilitários DOM
 const DOM = {
