@@ -1,7 +1,7 @@
 // =======================================
 // Painel Administrativo
 // =======================================
-
+let isStart = false;
 let users = [];
 let drawnNumbers = [];
 let userResponse = {};
@@ -46,6 +46,13 @@ async function addDrawnNumber() {
         return;
     }
 
+    // 🚫 BLOQUEIA DUPLICADO
+    if (drawnNumbers.includes(value)) {
+        Notify.warning("Número já sorteado");
+        input.value = "";
+        return;
+    }
+
     const updated = [...drawnNumbers, value];
 
     await fetch(API.NUMBERS, {
@@ -55,6 +62,14 @@ async function addDrawnNumber() {
     });
 
     input.value = "";
+    await fetchNumbers(); // 🔄 garante sincronização
+}
+
+function start() {
+    isStart = !isStart;
+    const btn = document.getElementById("add-number-btn");
+    btn.disabled = false;
+    fetch(`/api/start-sweepstake/${isStart}`);
 }
 
 // ===============================
@@ -69,9 +84,41 @@ function renderDrawnNumbers() {
     }
 
     el.innerHTML = drawnNumbers
-        .map(n => `<span class="drawn-ball">${String(n).padStart(2, "0")}</span>`)
+        .map(n => `
+            <span class="drawn-ball deletable" data-number="${n}">
+                ${String(n).padStart(2, "0")}
+                <span class="delete-icon">🗑️</span>
+            </span>
+        `)
         .join("");
+
+    bindDeleteEvents();
 }
+
+function bindDeleteEvents() {
+    document.querySelectorAll(".drawn-ball.deletable").forEach(el => {
+        el.addEventListener("click", async () => {
+            const number = el.dataset.number;
+
+            if (!confirm(`Remover o número ${number}?`)) return;
+
+            await deleteNumber(number);
+            await fetchNumbers(); // 🔄 atualiza tudo
+        });
+    });
+}
+
+
+async function deleteNumber(number) {
+    try {
+        await fetch(`${API.NUMBERS}/${number}`, {
+            method: "DELETE"
+        });
+    } catch (e) {
+        console.error("Erro ao deletar número", e);
+    }
+}
+
 
 // ===============================
 // WINNER

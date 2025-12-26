@@ -27,14 +27,17 @@ function formatTime(seconds) {
     .padStart(2, "0")}`;
 }
 
-function renderNumbers(numbers) {
-  luckyNumberDisplay.innerHTML = "";
-  numbers.forEach((num) => {
-    const span = document.createElement("span");
-    span.textContent = num;
-    luckyNumberDisplay.appendChild(span);
-  });
+function normalizeNumbers(numbers) {
+  // garante número, remove duplicados
+  return [...new Set(numbers.map(n => Number(n)))];
 }
+
+function formatNumber(n) {
+  return n.toString().padStart(2, "0");
+}
+
+
+
 
 // ===============================
 // TIMER (APENAS VISUAL)
@@ -83,11 +86,10 @@ async function checkLuckyNumberStatus() {
 
     if (data.alreadyGenerated) {
       isNumberRevealed = true;
-      luckyNumber = data.numbers;
 
-      renderNumbers(
-        luckyNumber.map((n) => n.toString().padStart(2, "0"))
-      );
+      luckyNumber = normalizeNumbers(data.numbers);
+
+      renderNumbers(luckyNumber);
 
       timerSection.classList.add("success");
       timerMessage.textContent = "✅ Número já gerado";
@@ -95,12 +97,25 @@ async function checkLuckyNumberStatus() {
 
       return true;
     }
+
   } catch {
     console.warn("Não foi possível verificar status do número");
   }
 
   return false;
 }
+
+
+function renderNumbers(numbers) {
+  luckyNumberDisplay.innerHTML = "";
+
+  numbers.forEach((num) => {
+    const span = document.createElement("span");
+    span.textContent = formatNumber(num); // 👈 sempre 01, 02...
+    luckyNumberDisplay.appendChild(span);
+  });
+}
+
 
 // ===============================
 // API – GERAR NÚMEROS
@@ -110,27 +125,30 @@ async function revealLuckyNumber() {
   luckyNumberDisplay.classList.add("locked");
 
   try {
-    const res = await fetch("/api/generate-numbers", {
-      method: "GET",
-    });
+    const res = await fetch("/api/generate-numbers");
 
-    if (!res.ok) throw new Error();
-
+    // 👇 lê a resposta mesmo quando é erro
     const data = await res.json();
-    luckyNumber = data.numeros;
 
-    renderNumbers(
-      luckyNumber.map((n) => n.toString().padStart(2, "0"))
-    );
+    if (!res.ok) {
+      // usa a mensagem do backend
+      throw new Error(data.message || "Erro ao gerar os números");
+    }
+
+    luckyNumber = normalizeNumbers(data.numeros);
+    renderNumbers(luckyNumber);
 
     luckyNumberDisplay.classList.remove("locked");
     timerMessage.textContent = "🎉 Boa sorte!";
+
   } catch (err) {
     console.error(err);
-    alert("Erro ao gerar os números");
+    alert(err.message); // 👈 agora mostra "O Sorteio já começou"
     isNumberRevealed = false;
   }
 }
+
+
 
 // ===============================
 // YOUTUBE API

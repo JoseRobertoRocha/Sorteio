@@ -1,129 +1,240 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin - Natal da Sorte</title>
-    <link rel="stylesheet" href="/css/painel.css?v=3">
-</head>
-<body class="admin-page">
-    <div id="admin-content" style="display: block;">
-    <header class="top-nav">
-        <div class="top-nav__brand">
-            <img src="/images/logo.png" alt="Logo Natal da Sorte" class="top-nav__logo">
-            <span>Natal da Sorte</span>
-        </div>
-        <nav class="top-nav__links">
-            <a href="/Painel.html" class="top-nav__link" data-nav="inicio">Início</a>
-            <a href="/cadastros" class="top-nav__link" data-nav="cadastros">Cadastros</a>
-            <a href="/resultado" class="top-nav__link" target="_blank" title="Abrir página de resultado em nova aba">📺 Resultado</a>
-            <a href="/cadastro-sorteio" class="top-nav__link">Cadastrar sorteio</a>
-            <a href="/" class="top-nav__link top-nav__link--exit">Sair</a>
-        </nav>
-    </header>
+    <head>
+        <meta charset="UTF-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        >
+        <title>Painel Admin - Natal da Sorte</title>
+        <link rel="stylesheet" href="/css/painel.css?v=3">
+    </head>
+    <body class="admin-page">
+        <div
+            id="admin-content"
+            style="display: block;"
+        >
+            <header class="top-nav">
+                <div class="top-nav__brand">
+                    <img
+                        src="/images/logo.png"
+                        alt="Logo Natal da Sorte"
+                        class="top-nav__logo"
+                    >
+                    <span>Natal da Sorte</span>
+                </div>
+                <nav class="top-nav__links">
+                    <a
+                        href="/Painel.html"
+                        class="top-nav__link"
+                        data-nav="inicio"
+                    >
+                        Início
+                    </a>
+                    <a
+                        href="/cadastros"
+                        class="top-nav__link"
+                        data-nav="cadastros"
+                    >
+                        Cadastros
+                    </a>
+                    <a
+                        href="/resultado"
+                        class="top-nav__link"
+                        target="_blank"
+                        title="Abrir página de resultado em nova aba"
+                    >
+                        📺 Resultado
+                    </a>
+                    <a
+                        href="/cadastro-sorteio"
+                        class="top-nav__link"
+                    >
+                        Cadastrar sorteio
+                    </a>
+                    <a
+                        href="/"
+                        class="top-nav__link top-nav__link--exit"
+                    >
+                        Sair
+                    </a>
+                </nav>
+            </header>
 
-    <div class="header">
-        <h1>🎄 Painel Administrativo - Natal da Sorte</h1>
-        <p>Gerencie os participantes e acompanhe os números da sorte em tempo real</p>
-        <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <button id="clear-all-btn" class="btn btn-delete">🧹 Apagar dados</button>
-        </div>
-    </div>
 
-    <div id="tab-painel" class="tab-content active">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Total de Usuários</h3>
-                <div class="number" id="total-users">0</div>
+            <div class="header">
+                <h1>
+                    🎄 Painel Administrativo - Natal da Sorte
+                </h1>
+                <p>
+                    Gerencie os participantes e acompanhe os números da sorte em tempo real
+                </p>
+                <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button
+                        id="clear-all-btn"
+                        class="btn btn-delete"
+                    >
+                        🧹 Apagar dados
+                    </button>
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>Usuários Online</h3>
-                <div class="number" id="online-users" style="background: linear-gradient(135deg, #0b6b4a 0%, #074d35 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Números Revelados</h3>
-                <div class="number" id="total-numbers">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Aguardando Número</h3>
-                <div class="number" id="waiting-users">0</div>
-            </div>
-        </div>
 
-        <div class="draw-section">
-            <h2>🎲 Realizar Sorteio</h2>
-            <div>
-                <input type="number" id="draw-number-input" min="0" max="99" placeholder="Digite o número (00-99)">
-                <button onclick="addDrawnNumber()">Adicionar</button>
-                <button onclick="clearDraw()">Limpar Sorteio</button>
+
+            <div
+                id="tab-painel"
+                class="tab-content active"
+            >
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total de Usuários</h3>
+                        <div
+                            class="number"
+                            id="total-users"
+                        >
+                            0
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Usuários Online</h3>
+                        <div
+                            class="number"
+                            id="online-users"
+                            style="background: linear-gradient(135deg, #0b6b4a 0%, #074d35 100%); -webkit-background-clip: text; background-clip: text; color: transparent;"
+                        >
+                            0
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Números Revelados</h3>
+                        <div
+                            class="number"
+                            id="total-numbers"
+                        >
+                            0
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Aguardando Número</h3>
+                        <div
+                            class="number"
+                            id="waiting-users"
+                        >
+                            0
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="draw-section">
+                    <h2>🎲 Realizar Sorteio</h2>
+                    <div>
+                        <input
+                            type="number"
+                            id="draw-number-input"
+                            min="0"
+                            max="99"
+                            placeholder="Digite o número (00-99)"
+                        >
+                        <button
+                            id="add-number-btn"
+                            disabled
+                            onclick="addDrawnNumber()"
+                        >
+                            Adicionar
+                        </button>
+                        <button onclick="start()">Iniciar</button>
+
+
+                    </div>
+                    <div>
+                        <h3>Números Sorteados:</h3>
+                        <div id="drawn-numbers-display">
+                            <p class="empty-drawn">Nenhum número sorteado ainda</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="winner-section">
+                    <h2>🏆 Ganhador</h2>
+                    <div id="winner-display">
+                        <p class="no-winner">Aguardando ganhador...</p>
+                    </div>
+                </div>
+
+
+                <div class="lucky-numbers-section">
+                    <h2>🎁 Números da Sorte dos Usuários</h2>
+                    <div
+                        class="numbers-grid"
+                        id="numbers-grid"
+                    >
+                        <div class="empty-state">
+                            <p>Nenhum número revelado ainda</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button
+                    class="refresh-btn"
+                    onclick="loadData()"
+                    title="Atualizar dados"
+                >
+                    🔄
+                </button>
             </div>
-            <div>
-                <h3>Números Sorteados:</h3>
-                <div id="drawn-numbers-display">
-                    <p class="empty-drawn">Nenhum número sorteado ainda</p>
+
+
+            <div
+                id="tab-usuarios"
+                class="tab-content"
+            >
+                <div class="users-section">
+                    <h2>👥 Usuários Cadastrados</h2>
+
+
+                    <div class="search-bar">
+                        <input
+                            type="text"
+                            id="search-input"
+                            placeholder="🔍 Buscar por número da sorte, nome, e-mail ou telefone..."
+                        >
+                    </div>
+
+
+                    <div class="users-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Telefone</th>
+                                    <th>Chave PIX</th>
+                                    <th>Número da Sorte</th>
+                                    <th>Status</th>
+                                    <th>Online</th>
+                                    <th>Data/Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <tr>
+                                    <td
+                                        colspan="7"
+                                        class="empty-state"
+                                    >
+                                        <p>Nenhum usuário cadastrado ainda</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="winner-section">
-            <h2>🏆 Ganhador</h2>
-            <div id="winner-display">
-                <p class="no-winner">Aguardando ganhador...</p>
-            </div>
-        </div>
 
-        <div class="lucky-numbers-section">
-            <h2>🎁 Números da Sorte dos Usuários</h2>
-            <div class="numbers-grid" id="numbers-grid">
-                <div class="empty-state">
-                    <p>Nenhum número revelado ainda</p>
-                </div>
-            </div>
-        </div>
-
-        <button class="refresh-btn" onclick="loadData()" title="Atualizar dados">
-            🔄
-        </button>
-    </div>
-
-    <div id="tab-usuarios" class="tab-content">
-        <div class="users-section">
-            <h2>👥 Usuários Cadastrados</h2>
-            
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="🔍 Buscar por número da sorte, nome, e-mail ou telefone...">
-            </div>
-
-            <div class="users-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>Chave PIX</th>
-                            <th>Número da Sorte</th>
-                            <th>Status</th>
-                            <th>Online</th>
-                            <th>Data/Hora</th>
-                        </tr>
-                    </thead>
-                    <tbody id="users-tbody">
-                        <tr>
-                            <td colspan="7" class="empty-state">
-                                <p>Nenhum usuário cadastrado ainda</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <script src="/js/utils.js"></script>
-    <script src="/js/painel.js?v=4"></script>
-</body>
+        <script src="/js/utils.js"></script>
+        <script src="/js/painel.js?v=4"></script>
+    </body>
 </html>
-
-

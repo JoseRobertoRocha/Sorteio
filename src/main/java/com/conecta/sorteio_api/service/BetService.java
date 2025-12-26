@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.conecta.sorteio_api.configuration.UserUtil;
 import com.conecta.sorteio_api.dto.LuckyNumberStatusResponseDTO;
+import com.conecta.sorteio_api.exeception.CloseSweepstakeException;
 import com.conecta.sorteio_api.model.Bet;
+import com.conecta.sorteio_api.model.Sweepstake;
 import com.conecta.sorteio_api.repository.BetRepository;
 import com.conecta.sorteio_api.repository.SweepsatakeRepository;
 
@@ -35,6 +37,10 @@ public class BetService {
      * Se o usuário já tiver números, retorna os mesmos.
      */
     public int[] save() {
+        Sweepstake sweepstake = sweepsatakeRepository.findAll().getFirst();
+        if (sweepstake.getKey()) {
+            throw new CloseSweepstakeException();
+        }
 
         UUID userId = userUtil.getCurrentUser().getId();
 
@@ -51,7 +57,7 @@ public class BetService {
 
         Bet bet = Bet.builder()
                 .sweepstakeNumber(numbers)
-                .sweepstake(sweepsatakeRepository.findAll().getFirst())
+                .sweepstake(sweepstake)
                 .user(userUtil.getCurrentUser())
                 .build();
 
@@ -68,11 +74,12 @@ public class BetService {
         Set<Integer> numbers = new HashSet<>();
 
         while (numbers.size() < 10) {
-            int dezena = random.nextInt(90) + 10; // 10–99
-            numbers.add(dezena);
+            int n = random.nextInt(99) + 1; // 01–99
+            numbers.add(n);
         }
 
         return numbers.stream()
+                .sorted()
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
@@ -83,10 +90,11 @@ public class BetService {
         var bets = betRepository.findByUserId(userId);
 
         if (!bets.isEmpty()) {
-             
-             return new LuckyNumberStatusResponseDTO(true, bets.get(0).getSweepstakeNumber());
+
+            return new LuckyNumberStatusResponseDTO(true, bets.get(0).getSweepstakeNumber());
         }
 
         return new LuckyNumberStatusResponseDTO(false, null);
     }
+
 }

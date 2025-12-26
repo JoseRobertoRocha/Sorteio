@@ -1700,7 +1700,7 @@ body.login-page::before {
 }
 
 .draw-section button:last-of-type {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(135deg, #04fb63 0%, #098c02 100%);
   box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
 }
 
@@ -3048,4 +3048,48 @@ body.login-page::before {
     font-size: 1.05em;
   }
 }
+.drawn-ball {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 4px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
 
+.drawn-ball .delete-icon {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background: #e53935;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.drawn-ball:hover .delete-icon {
+    display: flex;
+}
+
+.drawn-ball:hover {
+    background: #333;
+    transform: scale(1.05);
+}
+
+.draw-section button:disabled {
+    opacity: 0.45;              /* fica opaco */
+    cursor: not-allowed;        /* cursor de bloqueio */
+    pointer-events: none;       /* NÃO clicável */
+    filter: grayscale(60%);     /* visual de desativado (opcional) */
+}

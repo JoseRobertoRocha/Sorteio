@@ -33,11 +33,20 @@ public class Sweepstake {
 
     private String prize;
 
+    private boolean key;
+
     private LocalDateTime date;
 
     @Column(columnDefinition = "integer[]")
     private int[] numbers;
 
+    public void setKey(boolean key){
+        this.key = key;
+    }
+
+    public boolean getKey(){
+        return this.key;
+    }
 
     public int [] getNumbers(){
         return this.numbers;

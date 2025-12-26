@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class SweepsatakeService {
             String imagePath = saveImage(image);
             sweepstake.setImagePath(imagePath);
             sweepstake.setAdminUser(userUtil.getCurrentUser());
+            sweepstake.setKey(true);
         }
 
         repository.save(sweepstake);
@@ -117,6 +119,20 @@ public class SweepsatakeService {
                 isWinner);
     }
 
-   
+    public void deleteNumber(int number) {
+        Sweepstake sweepstake = repository.findAll().getFirst();
+        int[] numbers = sweepstake.getNumbers();
+
+        int[] newNumbers = Arrays.stream(numbers).filter(n -> n != number).toArray();
+        sweepstake.setNumbers(newNumbers);
+        repository.save(sweepstake);
+
+    }
+
+    public void changekey(boolean key) {
+        Sweepstake sweepstake = repository.findAll().getFirst();
+        sweepstake.setKey(key);
+        repository.save(sweepstake);
+    }
 
 }
