@@ -8,9 +8,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
-    env_file:
-      - .env
-
   app:
     build: .
     container_name: spring_app
@@ -20,8 +17,6 @@ services:
       - "8080:8080"
     networks:
       - app-network
-    env_file:
-      - .env
     restart: unless-stopped  
 
 networks:
