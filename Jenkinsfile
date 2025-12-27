@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     stages {
-
         stage('Build JAR') {
             steps {
                 echo '🔨 Compilando aplicação'
+                sh 'chmod +x mvnw'
                 sh './mvnw clean package -DskipTests'
             }
         }
