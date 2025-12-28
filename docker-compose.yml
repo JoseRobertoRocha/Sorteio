@@ -1,8 +1,8 @@
+version: "3.9"
+
 services:
   postgres:
     image: postgres:15
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: sorteio_db
       POSTGRES_USER: postgres
@@ -19,9 +19,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sorteio_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     networks:
       - app-network
     restart: unless-stopped
+
+networks:
+  app-network:
+
+volumes:
+  postgres_data:
